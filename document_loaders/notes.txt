@@ -1,0 +1,265 @@
+COURSEMATE AI — DOCUMENT LOADERS
+====================================
+
+1. What is a Document Loader?
+------------------------------
+A Document Loader is a component that reads data from a source file or
+external source and converts it into a format that LangChain can process.
+
+In CourseMate AI, document loaders are used to take study materials such as
+PDFs, lecture notes, textbooks, and research papers and turn their contents
+into Document objects.
+
+Basic flow:
+
+Study Material
+      ↓
+Document Loader
+      ↓
+Document Objects
+      ↓
+Text Splitting
+      ↓
+Embeddings
+      ↓
+Vector Database
+
+
+2. Why do we need Document Loaders?
+-----------------------------------
+LLMs and RAG pipelines do not directly work with every file format.
+
+A PDF, for example, contains more than just plain text. A document loader
+handles the job of reading the file and extracting its useful content.
+
+Instead of manually opening a PDF and copying its text, we can use a loader
+to automate the process.
+
+
+3. LangChain Document
+---------------------
+A loader generally produces LangChain Document objects.
+
+A Document contains two important parts:
+
+- page_content → the actual extracted text
+- metadata → information about where the text came from
+
+Conceptually:
+
+Document(
+    page_content="...",
+    metadata={
+        "source": "notes.pdf",
+        "page": 1
+    }
+)
+
+The metadata is useful later during retrieval because we can identify the
+source of an answer.
+
+
+4. PDF Document Loader
+----------------------
+For CourseMate AI, PDF files are one of the most important inputs.
+
+A common LangChain loader for PDFs is PyPDFLoader.
+
+Example:
+
+from langchain_community.document_loaders import PyPDFLoader
+
+loader = PyPDFLoader("notes.pdf")
+
+docs = loader.load()
+
+print(docs)
+
+
+5. Understanding load()
+-----------------------
+The load() method reads the source and returns the documents.
+
+Example:
+
+docs = loader.load()
+
+You can inspect the number of documents:
+
+print(len(docs))
+
+You can inspect the text:
+
+print(docs[0].page_content)
+
+You can inspect metadata:
+
+print(docs[0].metadata)
+
+
+6. Page-based Documents
+-----------------------
+For a PDF, a loader can represent individual pages as separate Document
+objects.
+
+For example, a 3-page PDF may result in:
+
+docs[0] → page 1
+docs[1] → page 2
+docs[2] → page 3
+
+This is useful because page information can be preserved in metadata.
+
+
+7. Other Common Document Sources
+--------------------------------
+Different sources can use different document loaders.
+
+Examples include:
+
+PDF
+→ PyPDFLoader
+
+Text file
+→ TextLoader
+
+CSV
+→ CSVLoader
+
+Web pages
+→ WebBaseLoader
+
+Directory of files
+→ DirectoryLoader
+
+The exact loader depends on the source format.
+
+
+8. CourseMate AI Example
+------------------------
+Suppose a student uploads:
+
+Operating_Systems.pdf
+
+The first RAG step can be:
+
+from langchain_community.document_loaders import PyPDFLoader
+
+loader = PyPDFLoader("Operating_Systems.pdf")
+
+docs = loader.load()
+
+Now CourseMate AI has the document contents available as Document objects.
+
+The next step is NOT to send the complete document directly to the LLM.
+
+The documents normally go to the next stage:
+
+Document Objects
+      ↓
+Text Splitting / Chunking
+
+
+9. Inspecting a Document
+------------------------
+Useful code while learning:
+
+print("Number of documents:", len(docs))
+
+print("First document text:")
+print(docs[0].page_content)
+
+print("First document metadata:")
+print(docs[0].metadata)
+
+
+10. Important Concept
+---------------------
+Document loading is NOT the same as embedding.
+
+Document Loader:
+    Reads and extracts content.
+
+Text Splitter:
+    Breaks large content into smaller chunks.
+
+Embedding Model:
+    Converts chunks into numerical vectors.
+
+Vector Database:
+    Stores vectors and their associated information.
+
+Retriever:
+    Finds relevant chunks for a user's question.
+
+LLM:
+    Uses the retrieved context to generate the answer.
+
+
+11. CourseMate AI RAG Pipeline
+------------------------------
+Step 1:
+User uploads study material.
+
+Step 2:
+Document Loader reads the material.
+
+Step 3:
+Text Splitter creates smaller chunks.
+
+Step 4:
+Embedding Model converts chunks into vectors.
+
+Step 5:
+Vector Database stores embeddings, text, and metadata.
+
+Step 6:
+Student asks a question.
+
+Step 7:
+The question is converted into an embedding.
+
+Step 8:
+Similarity search finds relevant chunks.
+
+Step 9:
+Retriever selects the best chunks.
+
+Step 10:
+LLM uses those chunks as context and answers the student.
+
+
+12. Practice Task
+-----------------
+Create a small PDF containing notes about Python.
+
+Then write a Python program that:
+
+1. Loads the PDF with PyPDFLoader.
+2. Prints the number of loaded documents.
+3. Prints the first document's text.
+4. Prints the first document's metadata.
+
+Do not add embeddings or a vector database yet.
+
+The goal of this step is to understand exactly what a document loader
+produces before moving to chunking.
+
+
+13. Quick Revision
+------------------
+Document Loader
+= Reads data from a source and converts it into LangChain Documents.
+
+page_content
+= Extracted text.
+
+metadata
+= Information about the source/document.
+
+load()
+= Loads the source and returns Document objects.
+
+For CourseMate AI:
+
+PDF → Loader → Documents → Chunking → Embeddings → Vector DB

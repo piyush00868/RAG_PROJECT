@@ -1,0 +1,27 @@
+# LangChain
+langchain
+langchain-core
+langchain-community
+
+# Mistral
+langchain-mistralai
+
+# Hugging Face - embeddings / local models
+langchain-huggingface
+huggingface-hub
+sentence-transformers
+
+# Document loading
+pypdf
+
+# Vector database
+chromadb
+
+# Environment variables
+python-dotenv
+
+# Streamlit UI
+streamlit
+
+# Pydantic - structured data
+pydantic
