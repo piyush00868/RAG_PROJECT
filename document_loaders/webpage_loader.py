@@ -14,7 +14,7 @@ template = ChatPromptTemplate.from_messages([
 
 model = ChatMistralAI(model="mistral-small-latest")
 
-prompt = template.format_prompt(data=docs)
+prompt = template.format_prompt(data=docs[0].page_content)
 
 response = model.invoke(prompt)
 
