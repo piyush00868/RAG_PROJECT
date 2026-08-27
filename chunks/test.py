@@ -5,7 +5,7 @@ splitter = CharacterTextSplitter(
     chunk_size= 10,
     chunk_overlap= 1,
      separator= "",
-    
+     
     )
 
 data = TextLoader("chunks/notes.txt")
