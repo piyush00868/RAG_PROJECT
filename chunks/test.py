@@ -4,8 +4,7 @@ from langchain_community.document_loaders import TextLoader
 splitter = CharacterTextSplitter(
     chunk_size= 10,
     chunk_overlap= 1,
-     separator= "",
-     
+     separator= "",  
     )
 
 data = TextLoader("chunks/notes.txt")
