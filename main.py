@@ -15,6 +15,8 @@ vector_store = Chroma(
     embedding_function=embeddings_model
 )
 
+print("Vector store created ")
+
 retriever = vector_store.as_retriever(
     search_type="mmr",
     search_kwargs={

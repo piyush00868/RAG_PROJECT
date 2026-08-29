@@ -11,7 +11,7 @@ from langchain_community.vectorstores import Chroma
 
 load_dotenv()
 
-loader = PyPDFLoader("designsystem.pdf")
+loader = PyPDFLoader("documents/designsystem.pdf")
 docs = loader.load()
 
 splitter = RecursiveCharacterTextSplitter(
