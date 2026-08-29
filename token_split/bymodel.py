@@ -12,7 +12,7 @@ splitter = TokenTextSplitter(
     chunk_overlap=10
 )
 
-data = PyPDFLoader("token_split/notes.pdf")
+data = PyPDFLoader("documents/notes.pdf")
 
 docs = data.load()
 

@@ -6,7 +6,7 @@ from langchain_community.document_loaders import TextLoader
 
 load_dotenv()
 
-data = TextLoader("document_loaders/notes.txt")
+data = TextLoader("documents/notes2.txt")
 docs = data.load()
 
 template = ChatPromptTemplate.from_messages([

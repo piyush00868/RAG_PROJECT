@@ -7,7 +7,7 @@ splitter = CharacterTextSplitter(
      separator= "",  
     )
 
-data = TextLoader("chunks/notes.txt")
+data = TextLoader("documents/notes.txt")
 
 docs = data.load()
 
